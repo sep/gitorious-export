@@ -60,6 +60,22 @@ def export_projects(projects, output_dir)
   export_projects_source(projects, output_dir)
 end
 
+def export_users(users, output_dir)
+  user_hashed = users.map do |user|
+    {:login => user.login, :email => user.email, :ad_guid => user.ad_guid, :ssh_keys => user.ssh_keys.map{|k| k.key}}
+  end
+
+  File.open(File.join(output_dir, 'users.json'), 'w'){|f| f.write(user_hashed.to_json)}
+end
+
+def export_groups(groups, output_dir)
+  group_hashed = groups.map do |group|
+    {:name => group.name, :description => group.description, :members => group.members.map{|u| u.login}}
+  end
+
+  File.open(File.join(output_dir, 'groups.json'), 'w'){|f| f.write(group_hashed.to_json)}
+end
+
 output_dir = get_output_dir('output')
 
 rm_rf(output_dir) if File.directory?(output_dir)
@@ -68,4 +84,6 @@ Dir.mkdir(output_dir)
 projects = Project.all.take(2)
 
 export_projects(projects, output_dir)
+export_users(User.all, output_dir)
+export_groups(Group.all, output_dir)
 
