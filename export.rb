@@ -14,25 +14,11 @@ end
 
 def export_projects_data(projects, output_dir)
   hashed = projects.map do |project|
-
-    puts "-" * 80
-    puts project.title
-    puts project.description
-    puts project.slug
-    puts "#{project.owner_type} - #{project.owner_id}"
-
-    project.repositories.map do |repo|
-      puts 
-      puts "  " + repo.name
-      puts "  #{repo.owner_type} - #{repo.owner_id}"
-      puts "  " + repo.hashed_path
-      puts "  " + repo.clone_url
-      puts "  " + repo.push_url
-
+    repositories = project.repositories.map do |repo|
       {:name => repo.name, :owner_type => repo.owner_type, :owner_id => repo.owner_id, :clone_url => repo.clone_url}
     end
 
-    {:title => project.title, :owner_type => project.owner_type, :owner_id => project.owner_id, :description => project.description, :slug => project.slug}
+    {:title => project.title, :owner_type => project.owner_type, :owner_id => project.owner_id, :description => project.description, :slug => project.slug, :repositories => repositories}
   end
 
   File.open(File.join(output_dir, 'export.json'), 'w'){|f| f.write(hashed.to_json)}
