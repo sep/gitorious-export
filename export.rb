@@ -61,7 +61,7 @@ def export_groups(groups, output_dir)
   File.open(File.join(output_dir, 'groups.json'), 'w'){|f| f.write(group_hashed.to_json)}
 end
 
-output_dir = get_output_dir('output')
+output_dir = get_output_dir(File.join('..', 'output'))
 
 rm_rf(output_dir) if File.directory?(output_dir)
 Dir.mkdir(output_dir)
