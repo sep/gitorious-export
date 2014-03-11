@@ -15,7 +15,7 @@ end
 def export_projects_data(projects, output_dir)
   hashed = projects.map do |project|
     repositories = project.repositories.map do |repo|
-      {:name => repo.name, :owner_type => repo.owner_type, :owner_id => repo.owner_id, :clone_url => repo.clone_url, :committers => repo.committers.map{|c| c.login}}
+      {:name => repo.name, :description => repo.description,:owner_type => repo.owner_type, :owner_id => repo.owner_id, :clone_url => repo.clone_url, :committers => repo.committers.map{|c| c.login}}
     end
 
     {:title => project.title, :owner_type => project.owner_type, :owner_id => project.owner_id, :description => project.description, :slug => project.slug, :repositories => repositories}
