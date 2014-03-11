@@ -33,8 +33,13 @@ def export_projects_source(projects, output_dir)
     project.repositories.each do |repo|
       project_dir = get_project_dir(output_dir, project.slug)
       Dir.chdir(project_dir) do
-          puts "  cloning #{repo.name} (#{repo.clone_url})"
-          `git clone #{repo.clone_url}`
+        puts "  cloning #{repo.name} (#{repo.clone_url})"
+        `git clone #{repo.clone_url}`
+        empty = Dir.chdir(repo.name) do
+          num_refs = `git count-objects | cut -c 1`
+          num_refs == '0'
+        end
+        rm_rf repo.name if empty
       end
     end
   end
