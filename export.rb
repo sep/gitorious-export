@@ -31,9 +31,8 @@ def export_projects_source(projects, output_dir)
 
     puts "#{project.title} cloning #{project.repositories.count}"
     project.repositories.each do |repo|
-      repo_dir = get_repo_dir(output_dir, project.slug, repo.name)
-      Dir.mkdir(repo_dir)
-      Dir.chdir(repo_dir) do
+      project_dir = get_project_dir(output_dir, project.slug)
+      Dir.chdir(project_dir) do
           puts "  cloning #{repo.name} (#{repo.clone_url})"
           `git clone #{repo.clone_url}`
       end
