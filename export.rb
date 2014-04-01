@@ -71,7 +71,7 @@ output_dir = get_output_dir(File.join('..', 'output'))
 rm_rf(output_dir) if File.directory?(output_dir)
 Dir.mkdir(output_dir)
 
-projects = Project.all.take(2)
+projects = Project.all
 
 export_projects(projects, output_dir)
 export_users(User.all, output_dir)
